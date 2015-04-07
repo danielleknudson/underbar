@@ -39,7 +39,7 @@
   // last element.
   _.last = function(array, n) {
     if (n === undefined) {
-      return array.slice(-1);
+      return array[array.length - 1];
     } else if (n === 0) {
       return [];
     } else {
@@ -204,12 +204,23 @@
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    return _.reduce(collection, function(wasFound, item) {
-      if (wasFound) {
-        return true;
+    if (Array.isArray === true) { // the collection is an array
+      return _.reduce(collection, function(wasFound, item) {
+        if (wasFound) {
+          return true;
+        }
+        return item === target;
+      }, false); // in reduce(), accumulator will start as false as declared here 
+    } else { // the collection is an object
+      var wasFound = false;
+      for (var key in collection) {
+        if (collection[key] === target) {
+          wasFound = true;
+        }
       }
-      return item === target;
-    }, false);
+      return wasFound; 
+    }
+    
   };
 
 
