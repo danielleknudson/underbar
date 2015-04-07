@@ -58,8 +58,8 @@
         iterator(collection[i], i, collection);
       }
     } else { // it's an object
-      for (var i in collection) {
-        iterator(collection[i], i, collection);
+      for (var key in collection) {
+        iterator(collection[key], key, collection);
       }
     }
   };
@@ -119,7 +119,11 @@
   _.uniq = function(array) {
     var result = [];
 
-    
+    for (var i = 0; i < array.length; i++) {
+      if (_.indexOf(result, array[i]) === -1) { // is the element already in the result array?
+        result.push(array[i]);  // OK, it's not, so put it in result array
+      }
+    }
 
     return result;
   };
