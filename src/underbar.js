@@ -227,12 +227,65 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    
+    // if it's empty, return true
+    if (collection.length === 0) {return true;}
+
+    // as soon as this flag becomes false, return
+    // else remains true and elements of collection pass the truth test
+    var flag = true;
+
+    if (iterator === undefined) {
+      for (var i = 0; i < collection.length; i++) {
+        if( (_.identity(collection[i]) === false)
+            || (_.identity(collection[i]) === null) 
+            || (_.identity(collection[i]) === undefined) 
+            || (_.identity(collection[i]) === 0) ) {
+          flag = false;
+          return flag;
+        }
+      } 
+    } else {
+      for (var i = 0; i < collection.length; i++) {
+        if( (iterator(collection[i]) === false)
+            || (iterator(collection[i]) === null) 
+            || (iterator(collection[i]) === undefined) 
+            || (iterator(collection[i]) === 0) ) {
+          flag = false;
+          return flag;
+        }
+      } 
+    }
+    return flag;
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
+    var flag = false;
+
+    if (collection.length === 0) {return flag;}
+
+    if (iterator !== undefined) {
+      if ( _.every(collection, iterator) === true ) {
+        return flag = true;
+      }
+
+      for (var i = 0; i < collection.length; i++) {
+        if ( (iterator(collection[i]) === true) || ((typeof collection[i] == "string") && (collection[i] !== '')) ) {
+          return flag = true;
+        }
+      }
+    } // end of iterator !== undefined check
+
+    for (var i = 0; i < collection.length; i++) {
+        if ( (_.identity(collection[i]) === true) || ((typeof collection[i] == "string") && (collection[i] !== '')) ) {
+          return flag = true;
+        }
+      } 
+
+    return flag;
   };
 
 
