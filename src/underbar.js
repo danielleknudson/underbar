@@ -204,7 +204,7 @@
   _.contains = function(collection, target) {
     // TIP: Many iteration problems can be most easily expressed in
     // terms of reduce(). Here's a freebie to demonstrate!
-    if (Array.isArray === true) { // the collection is an array
+    if (Array.isArray(collection) === true) { // the collection is an array
       return _.reduce(collection, function(wasFound, item) {
         if (wasFound) {
           return true;
@@ -308,11 +308,27 @@
   //     bla: "even more stuff"
   //   }); // obj1 now contains key1, key2, key3 and bla
   _.extend = function(obj) {
+    var args = arguments;
+    for (var i = 1; i < args.length; i++) {
+      for (var key in args[i]) {
+        obj["" + key + ""] = args[i][key];
+      }
+    }
+    return obj;    
   };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
   _.defaults = function(obj) {
+    var args = arguments;
+    for (var i = 1; i < args.length; i++) {
+      for (var key in args[i]) {
+        if (obj.hasOwnProperty("" + key + "") === false) {
+          obj["" + key + ""] = args[i][key];
+        }
+      }
+    }
+    return obj;
   };
 
 
@@ -338,7 +354,7 @@
     return function() {
       if (!alreadyCalled) {
         // TIP: .apply(this, arguments) is the standard way to pass on all of the
-        // infromation from one function call to another.
+        // information from one function call to another.
         result = func.apply(this, arguments);
         alreadyCalled = true;
       }
@@ -355,7 +371,18 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func) {
+  _.memoize = function(func, hasher) {
+    var history = {}; // create a history object we'll be storing our argument keys and values in
+    hasher || (hasher = _.identity); // allows for an optional hasher function, otherwise defaults to _.identity, which returns args passed to it
+    return function(){
+      var key = hasher.apply(this, arguments); // create a unique key for this func and its arguments
+      if (history.hasOwnProperty(key)) { // if the history object already has a record of the func's key/value pair
+        return history[key]; // return the value stored, so func doesn't have to be called again
+      } else { // the history object does not have this func's key/value pair 
+        history[key] = func.apply(this, arguments); // add the key to the history object with the func's result
+        return history[key]; // now return the value newly stored in the history object
+      }
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
