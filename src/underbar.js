@@ -371,11 +371,12 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-  _.memoize = function(func, hasher) {
+  _.memoize = function(func) {
     var history = {}; // create a history object we'll be storing our argument keys and values in
-    hasher || (hasher = _.identity); // allows for an optional hasher function, otherwise defaults to _.identity, which returns args passed to it
+    
     return function(){
-      var key = hasher.apply(this, arguments); // create a unique key for this func and its arguments
+      console.log(history);
+      var key = _.identity.apply(this, arguments); // create a unique key for this func and its arguments
       if (history.hasOwnProperty(key)) { // if the history object already has a record of the func's key/value pair
         return history[key]; // return the value stored, so func doesn't have to be called again
       } else { // the history object does not have this func's key/value pair 
@@ -384,6 +385,15 @@
       }
     };
   };
+
+  function add(a, b) {
+    return a + b;
+  }
+
+  var sum = _.memoize(add);
+
+  console.log(sum(3,5));
+
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
