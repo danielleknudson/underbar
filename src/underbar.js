@@ -375,8 +375,9 @@
     var history = {}; // create a history object we'll be storing our argument keys and values in
     
     return function(){
-      console.log(history);
-      var key = _.identity.apply(this, arguments); // create a unique key for this func and its arguments
+
+      var key = _.identity.apply(this, arguments); // returns the first argument of the func as the key
+
       if (history.hasOwnProperty(key)) { // if the history object already has a record of the func's key/value pair
         return history[key]; // return the value stored, so func doesn't have to be called again
       } else { // the history object does not have this func's key/value pair 
@@ -385,15 +386,6 @@
       }
     };
   };
-
-  function add(a, b) {
-    return a + b;
-  }
-
-  var sum = _.memoize(add);
-
-  console.log(sum(3,5));
-
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
