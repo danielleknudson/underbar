@@ -417,6 +417,32 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var length = array.length;
+    var newArray = new Array(length);
+
+    // returns the first undefined element in an array
+    function findUndefinedElement(array) {
+      for (var i = 0; i < array.length; i++) {
+        if (array[i] === undefined) {
+          return i;
+        }
+      }
+    }
+
+    for (var i = 0; i < length; i++) {
+      // create a random whole number for length of array (indexes 0 - lastIndex)
+      var randomIndex = Math.floor((Math.random() * (length - 1))); 
+      
+      if (newArray[randomIndex] === undefined){
+        newArray[randomIndex] = array[i];
+      } else {
+        var availableIndex = findUndefinedElement(newArray);
+        newArray[availableIndex] = array[i];
+        
+      }
+    }
+    
+    return newArray;
   };
 
 
