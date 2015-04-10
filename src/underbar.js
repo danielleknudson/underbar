@@ -148,9 +148,11 @@
     // the members, it also maintains an array of results.
     var results = [];
 
-    for (var i = 0; i < collection.length; i++) {
-      results.push(iterator(collection[i], i, collection));
-    }
+    // each iterator function: iterator(collection[i], i, collection);
+
+    _.each(collection, function(item, index, collection){
+      results.push(iterator(item, index, collection));
+    });
 
     return results;
   };
