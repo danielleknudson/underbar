@@ -227,6 +227,7 @@
       it('should give different results for different arguments', function() {
         expect(memoAdd(1, 2)).to.equal(3);
         expect(memoAdd(3, 4)).to.equal(7);
+        expect(memoAdd(3, 6)).to.equal(9);
       });
 
       it('should not run the memoized function twice for any given set of arguments', function() {

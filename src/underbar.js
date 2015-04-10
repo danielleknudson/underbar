@@ -7,8 +7,19 @@
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+    var args = arguments;
+    var valArray = [];
 
-    return val;
+    if (args.length === 1) {
+      return val;
+    } else if (args.length > 1 ) {
+      for (var i = 0; i < args.length; i++) {
+        valArray.push(args[i]);
+      }
+      return valArray;
+    }
+
+    
   };
 
   /**
@@ -378,6 +389,11 @@
     return function(){
 
       var key = _.identity.apply(this, arguments); // returns the first argument of the func as the key
+      
+      if (Array.isArray(key) === true) {
+        key.splice(0, 0, "a");
+        key = key.join('_');
+      }
 
       if (history.hasOwnProperty(key)) { // if the history object already has a record of the func's key/value pair
         return history[key]; // return the value stored, so func doesn't have to be called again
