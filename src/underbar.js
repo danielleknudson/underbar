@@ -7,6 +7,7 @@
   // seem very useful, but remember it--if a function needs to provide an
   // iterator when the user does not pass one in, this will be handy.
   _.identity = function(val) {
+
     return val;
   };
 
@@ -418,31 +419,36 @@
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
     var length = array.length;
-    var newArray = new Array(length);
+    var copy = [];
 
-    // returns the first undefined element in an array
-    function findUndefinedElement(array) {
-      for (var i = 0; i < array.length; i++) {
-        if (array[i] === undefined) {
-          return i;
+    function createRandomNumber(num, i) {
+      var random = Math.floor( Math.random() * (num) );
+
+      if (random === i) {
+        return createRandomNumber(num, i);
+      }
+      return random;
+    }
+
+    for (var i = 0; i < length; i++) {
+      var randomNumber = createRandomNumber(length, i);
+
+      if(copy[randomNumber] === undefined) {
+        copy[randomNumber] = array[i];
+      } else {
+        copy.splice(randomNumber, 0, array[i]);
+      }    
+    }
+
+    if (copy.length > length) { // there are undefined values in the array
+      for (var i = 0; i < copy.length; i++) {
+        if (copy[i] === undefined) {
+          copy.splice(i, 1);
         }
       }
     }
 
-    for (var i = 0; i < length; i++) {
-      // create a random whole number for length of array (indexes 0 - lastIndex)
-      var randomIndex = Math.floor((Math.random() * (length - 1))); 
-      
-      if (newArray[randomIndex] === undefined){
-        newArray[randomIndex] = array[i];
-      } else {
-        var availableIndex = findUndefinedElement(newArray);
-        newArray[availableIndex] = array[i];
-        
-      }
-    }
-    
-    return newArray;
+    return copy;
   };
 
 
