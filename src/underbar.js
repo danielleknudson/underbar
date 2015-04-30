@@ -506,7 +506,6 @@
       return collection.sort(function(a, b){
         return iterator(a) - iterator(b);
       });
-      
     } else if (typeof iterator === "string") {
       return collection.sort(function(a, b){
         return a[iterator] - b[iterator];
@@ -522,6 +521,42 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    // find out how many arrays need to be zipped
+    var args = arguments;
+    var numArgs = arguments.length;
+
+    // declare array to put each argument array's length value in
+    var argsLengthValues = [];
+
+    // push argument array's length value to argsLengthValues array
+    for (var i = 0; i < numArgs; i++) {
+      argsLengthValues.push(args[i].length);
+    }
+
+    // sort array by length
+    var argsLengthValues = argsLengthValues.sort();
+    
+    // store the longest length of an argument array in a variable
+    var longestArgArray = argsLengthValues[argsLengthValues.length - 1];
+
+    // declare the results array that will be returned by zip()
+    // with the length of the longestArgArray
+    var results = [];
+    
+    // add subarrays to the results array
+    for (var z = 0; z < longestArgArray; z++) {
+      var subarray = [];
+      results.push(subarray);
+    }
+    
+
+    for (var z = 0; z < longestArgArray; z++) {
+      for (var g = 0; g < numArgs; g++) {
+        results[z].push(args[g][z]);
+      }
+    }
+
+    return results;
 
   };
 
