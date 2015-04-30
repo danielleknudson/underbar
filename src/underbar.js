@@ -503,7 +503,10 @@
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {    
     if (typeof iterator === "function") {
-      return collection.sort(iterator);
+      return collection.sort(function(a, b){
+        return iterator(a) - iterator(b);
+      });
+      
     } else if (typeof iterator === "string") {
       return collection.sort(function(a, b){
         return a[iterator] - b[iterator];
@@ -519,6 +522,7 @@
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
