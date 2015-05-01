@@ -581,7 +581,35 @@
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
-  };
+    var results = [];
+    // how many arrays are passed in?
+    var args = arguments;
+    var numArgs = args.length;
+
+    var argsArray = [];
+
+    for (var i = 0; i < numArgs; i++) {
+      argsArray.push(args[i]);
+    }
+
+    var argsArraySortedByLength = _.sortBy(argsArray, 'length');
+    var longestArgArray = argsArraySortedByLength[argsArraySortedByLength.length - 1];
+
+    results = _.filter(longestArgArray, function(x) {
+      for (var j = 0; j < argsArraySortedByLength.length - 1; j++) {
+
+        if (_.indexOf(argsArraySortedByLength[j], x) === -1) {
+          console.log(false);
+          return false;
+        } else {
+          console.log(true);
+          return true;
+        }
+      }
+    });
+    
+    return results;
+  }; 
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
