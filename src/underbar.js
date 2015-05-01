@@ -599,21 +599,45 @@
       for (var j = 0; j < argsArraySortedByLength.length - 1; j++) {
 
         if (_.indexOf(argsArraySortedByLength[j], x) === -1) {
-          console.log(false);
           return false;
         } else {
-          console.log(true);
           return true;
         }
       }
     });
-    
+
     return results;
   }; 
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var results = [];
+
+    var args = arguments;
+
+    _.each(args[0], function(target){
+      
+      var flag = false;
+
+      for (var i = 1; i < args.length; i++) {
+
+        if ( (_.indexOf(args[i], target) === -1) && (flag === false) ) {
+          
+          flag = false;
+        } else {
+          
+          flag = true;
+        }
+      }
+
+      if (flag === false) {
+        results.push(target);
+      }
+
+    });
+
+    return results;
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
