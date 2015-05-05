@@ -104,7 +104,7 @@
     describe('difference', function() {
       it('should return the difference between two arrays', function() {
         var diff = _.difference([1,2,3], [2,30,40]);
-    
+
         expect(diff).to.eql([1,3]);
       });
 

@@ -646,5 +646,8 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
+    var now = new Date();
+    console.log(now);
+
   };
 }());
