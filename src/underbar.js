@@ -646,8 +646,18 @@
   //
   // Note: This is difficult! It may take a while to implement.
   _.throttle = function(func, wait) {
-    var now = new Date();
-    console.log(now);
-
+    
+    func();
+    var called = new Date().getTime();
+    
+    return function(){
+        var now = new Date().getTime();
+        if ( (now - called) < wait ) {
+            return;
+        } else {
+            func();
+            called = new Date().getTime();
+        }        
+    };
   };
 }());

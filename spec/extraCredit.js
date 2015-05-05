@@ -35,7 +35,6 @@
       it('should handle undefined values', function() {
         var list = [undefined, 4, 1, undefined, 3, 2];
         var result = _.sortBy(list, function(i) { return i; });
-        console.log("result: " + result);
         expect(result).to.eql([1, 2, 3, 4, undefined, undefined]);
       });
 
